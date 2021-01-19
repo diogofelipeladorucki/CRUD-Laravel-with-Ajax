@@ -18,10 +18,10 @@ class CreateProdutosTable extends Migration
             $table->string('nome');
             $table->integer('estoque');
             $table->float('preco');
-            $table->bigInteger('categoria_id')->unsigned();
-            $table->foreign('categoria_id')->references('id')->on('categorias'); 
+            $table->bigInteger('idCategoria')->unsigned();
+            $table->foreign('idCategoria')->references('id')->on('categorias'); 
             /*
-                categoria_id é uma chave estrangeira que se referencia a ao campo id 
+                idCategoria é uma chave estrangeira que se referencia a ao campo id 
                 da tabela categorias
             */
             $table->timestamps();

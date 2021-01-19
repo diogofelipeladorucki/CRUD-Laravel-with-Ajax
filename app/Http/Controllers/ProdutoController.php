@@ -42,7 +42,7 @@ class ProdutoController extends Controller
         $produto->nome = $request->input('nome');
         $produto->estoque = $request->input('estoque');
         $produto->preco = $request->input('preco');
-        $produto->categoria_id = $request->input('idCategoria');
+        $produto->idCategoria = $request->input('idCategoria');
         $produto->save();
         return redirect('/produtos');
     }
@@ -56,7 +56,7 @@ class ProdutoController extends Controller
     public function show($id)
     {
         $produto = Produto::find($id);
-        $produto->categoria = Categoria::find($produto->categoria_id);
+        $produto->categoria = Categoria::find($produto->idCategoria);
 
         if(isset($produto)){
             return view('/detalharProduto', compact('produto'));
@@ -97,7 +97,7 @@ class ProdutoController extends Controller
             $produto->nome = $request->input('nome');
             $produto->estoque = $request->input('estoque');
             $produto->preco = $request->input('preco');
-            $produto->categoria_id = $request->input('idCategoria');
+            $produto->idCategoria = $request->input('idCategoria');
             $produto->save();
         }
 
@@ -119,5 +119,60 @@ class ProdutoController extends Controller
         }
 
         return redirect('/produtos');
+    }
+
+    public function indexJson()
+    {
+        $produtos = Produto::all();
+        return json_encode($produtos);
+    }
+
+    public function storeJson(Request $request)
+    {
+        $produto = new Produto();
+        $produto->nome = $request->input('nome');
+        $produto->estoque = $request->input('estoque');
+        $produto->preco = $request->input('preco');
+        $produto->idCategoria = $request->input('idCategoria');
+        $produto->save();
+        return json_encode($produto);
+    }
+
+    public function updateJson(Request $request, $id)
+    {
+        $produto = Produto::find($id);
+
+        if(isset($produto)){
+            $produto->nome = $request->input('nome');
+            $produto->estoque = $request->input('estoque');
+            $produto->preco = $request->input('preco');
+            $produto->idCategoria = $request->input('idCategoria');
+            $produto->save();
+            return json_encode($produto);
+        }
+        return response('Produto não encontrado', 404);
+    }
+
+    public function destroyJson($id)
+    {
+        $produto = Produto::find($id);
+
+        if (isset($produto)) {
+            $produto->delete();
+            return response('OK', 200);
+        }
+        return response('Produto não encontrado', 404);
+    }
+
+    public function showJson($id)
+    {
+        $produto = Produto::find($id);
+        $produto->categoria = Categoria::find($produto->idCategoria);
+
+        if(isset($produto)){
+            return json_encode($produto);
+        }
+        
+        return response('Produto não encontrado', 404);
     }
 }

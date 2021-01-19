@@ -21,7 +21,7 @@
                     <label for="categoria">Categoria</label>
                     <select class="form-control" name="idCategoria" id="categoria">
                         @foreach ($categorias as $categoria)
-                            @if ($categoria->id == $produto->categoria_id)
+                            @if ($categoria->id == $produto->idCategoria)
                             <option selected value="{{ $categoria->id }}">{{ $categoria->nome }}</option>   
                             @else
                             <option value="{{ $categoria->id }}">{{ $categoria->nome }}</option>
